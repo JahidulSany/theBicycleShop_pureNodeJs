@@ -6,7 +6,7 @@ const url = require('url');
 // GET DATA
 const bicycles = require('./data/data.json');
 
-
+// SERVER
 const server = http.createServer( async(req, res) => {
     if(req.url === '/favicon.ico') return;
 
@@ -17,7 +17,7 @@ const server = http.createServer( async(req, res) => {
     const pathname = url.parse(req.url, true).pathname;
     let id = url.parse(req.url, true).query.id;
     
-    // HOMEPAGE
+    // MAINPAGE
     if (pathname === '/') { 
         let html = await fs.readFile(`${__dirname}/views/bicycles.html`, 'utf-8');
         let eachBicycle = await fs.readFile(`${__dirname}/views/partials/bicycle.html`, 'utf-8');
@@ -42,22 +42,25 @@ const server = http.createServer( async(req, res) => {
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.end(html);
     
+    // IMAGES
     } else if(/\.(png)$/i.test(req.url)) {
         let image = await fs.readFile(`${__dirname}/public/images/${req.url.slice(1)}`);
         res.writeHead(404, {'Content-Type': 'image/png'});
         res.end(image);
     
+    // CSS
     } else if(/\.(css)$/i.test(req.url)) {
         let css = await fs.readFile(`${__dirname}/public/css/index.css`);
         res.writeHead(200, {'Content-Type': 'text/css'});
         res.end(css);
     
+    // SVG
     } else if(/\.(svg)$/i.test(req.url)) {
         let svg = await fs.readFile(`${__dirname}/public/images/icons.svg`);
         res.writeHead(200, {'Content-Type': 'image/svg+xml'});
         res.end(svg);
     
-    // 404 NOT FOUND 
+    // INVALID URL 
     } else {
         res.writeHead(404, {'Content-Type': 'text/html'});
         res.end('<div><h1> Not Found </div></h1>');
