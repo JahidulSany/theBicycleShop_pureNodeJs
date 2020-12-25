@@ -10,10 +10,13 @@ const bicycles = require('./data/data.json');
 const server = http.createServer( async(req, res) => {
     if(req.url === '/favicon.ico') return;
 
-    const myURL = new URL(req.url, `http://${req.headers.host}/`);
-    const pathname = myURL.pathname;
-    const id = myURL.searchParams.get('id');
+//  const myURL = new URL(req.url, `http://${req.headers.host}/`);
+//  const pathname = myURL.pathname;
+//  const id = myURL.searchParams.get('id');
 
+    const pathname = url.parse(req.url, true).pathname;
+    let id = url.parse(req.url, true).query.id;
+    
     // HOMEPAGE
     if (pathname === '/') { 
         let html = await fs.readFile(`${__dirname}/views/bicycles.html`, 'utf-8');
@@ -29,7 +32,7 @@ const server = http.createServer( async(req, res) => {
         res.end(html);
     
     // OVERVIEW
-    } else if (pathname === '/bicycle' && id >= 0 && id <= 5) {
+    } else if (pathname === '/bicycle' && id >= 0 && id <= bicycles.length) {
         let html = await fs.readFile(`${__dirname}/views/overview.html`, 'utf-8');
         // Getting id from url
         const bicycle = bicycles.find(b => b.id === id);
