@@ -32,7 +32,7 @@ const server = http.createServer( async(req, res) => {
         res.end(html);
     
     // OVERVIEW
-    } else if (pathname === '/bicycle' && id >= 0 && id <= bicycles.length) {
+    } else if (pathname === '/bicycle' && id >= 0 && id < bicycles.length) {
         let html = await fs.readFile(`${__dirname}/views/overview.html`, 'utf-8');
         // Getting id from url
         const bicycle = bicycles.find(b => b.id === id);
