@@ -58,8 +58,6 @@ const server = http.createServer( async(req, res) => {
     } 
 });
 
-server.listen(3000);
-
 
 function replaceTemplate(html, bicycle) {
     html = html.replace(/<%IMAGE%>/g, bicycle.image);
@@ -90,7 +88,7 @@ function replaceTemplate(html, bicycle) {
     return html;
 }
 
-
+server.listen(3000);
 
 
 
